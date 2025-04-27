@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../api";
 
 interface Coin {
+  id: string;
   symbol: string;
-  price: string;
+  current_price: string;
 }
 
 export default function MainPage() {
@@ -25,10 +26,14 @@ export default function MainPage() {
   }, []);
 
   return (
-    <ul>
-      {coins.map((coin, index) => (
-        <li key={index}>
-          {coin.symbol} : {coin.price}
+    <ul className="space-y-2 text-sm">
+      {coins.map((coin) => (
+        <li
+          key={coin.id}
+          className="flex justify-between items-center p-3 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-colors duration-300"
+        >
+          <span className="font-semibold text-gray-800">{coin.symbol}</span>
+          <span className="text-gray-600">{coin.current_price}</span>
         </li>
       ))}
     </ul>
