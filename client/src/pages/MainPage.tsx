@@ -12,7 +12,7 @@ export default function MainPage() {
   const fetchCoins = async () => {
     try {
       const response = await api.get("/");
-      const data = response.data.coins;
+      const data = response.data;
       console.log("data : ", data);
       setCoins(data);
     } catch (error) {

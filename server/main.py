@@ -23,7 +23,9 @@ BINANCE_API_URL = "https://api.binance.com/api/v3/ticker/price"
 async def get_coins():
     async with httpx.AsyncClient() as client:
         response = await client.get(BINANCE_API_URL)
-        return {"coins": response.json()}
+        coins = response.json()
+        sorted_coins = sorted(coins, key=lambda coin: coin["symbol"])
+        return sorted_coins
 
 
 if __name__ == "__main__":
