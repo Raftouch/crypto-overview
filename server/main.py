@@ -6,7 +6,7 @@ import httpx
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000"
+    "http://localhost:5173"
 ]
 
 app.add_middleware(
@@ -23,7 +23,7 @@ BINANCE_API_URL = "https://api.binance.com/api/v3/ticker/price"
 async def get_coins():
     async with httpx.AsyncClient() as client:
         response = await client.get(BINANCE_API_URL)
-        return response.json()
+        return {"coins": response.json()}
 
 
 if __name__ == "__main__":
