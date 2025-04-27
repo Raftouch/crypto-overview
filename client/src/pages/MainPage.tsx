@@ -3,8 +3,10 @@ import api from "../api";
 
 interface Coin {
   id: string;
+  name: string;
   symbol: string;
   current_price: string;
+  image: string;
 }
 
 export default function MainPage() {
@@ -35,7 +37,7 @@ export default function MainPage() {
   return (
     <div>
       <select
-        className="mb-4 p-2 rounded"
+        className="mb-4 p-2 rounded text-sm"
         value={currency}
         onChange={handleCurrencyChange}
       >
@@ -53,7 +55,14 @@ export default function MainPage() {
             key={coin.id}
             className="flex justify-between items-center p-3 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-colors duration-300"
           >
-            <span className="font-semibold text-gray-800">{coin.symbol}</span>
+            <div className="flex items-center">
+              <img
+                src={coin.image}
+                alt={coin.symbol}
+                className="w-6 h-6 mr-4"
+              />
+              <span className="font-semibold text-gray-800">{coin.name}</span>
+            </div>
             <span className="text-gray-600">{coin.current_price}</span>
           </li>
         ))}
