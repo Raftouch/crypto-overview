@@ -12,10 +12,20 @@ interface Coin {
 export default function MainPage() {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [currency, setCurrency] = useState("usd");
+  const [sortBy, setSortBy] = useState<"name" | "current_price">("name");
 
-  const fetchCoins = async (currency: string) => {
+  const fetchCoins = async (
+    currency: string,
+    sortBy: "name" | "current_price"
+  ) => {
     try {
-      const response = await api.get(`/coins?currency=${currency}`);
+      console.log(
+        `Fetching coins with currency=${currency} and sort_by=${sortBy}`
+      );
+
+      const response = await api.get(
+        `/coins?currency=${currency}&sort_by=${sortBy}`
+      );
       const data = response.data;
       console.log("data : ", data);
       setCoins(data);
@@ -25,8 +35,8 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    fetchCoins(currency);
-  }, [currency]);
+    fetchCoins(currency, sortBy);
+  }, [currency, sortBy]);
 
   const handleCurrencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -34,20 +44,36 @@ export default function MainPage() {
     setCurrency(event.target.value);
   };
 
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(event.target.value as "name" | "current_price");
+  };
+
   return (
     <div>
-      <select
-        className="mb-4 p-2 rounded text-sm"
-        value={currency}
-        onChange={handleCurrencyChange}
-      >
-        <option value="usd">USD - United States Dollar</option>
-        <option value="eur">EUR - Euro</option>
-        <option value="gbp">GBP - British Pound</option>
-        <option value="jpy">JPY - Japanese Yen</option>
-        <option value="btc">BTC - Bitcoin</option>
-        <option value="eth">ETH - Ethereum</option>
-      </select>
+      <h1 className="text-center py-5 font-bold">Crypto Today</h1>
+      <div className="flex w-full">
+        <select
+          className="mb-4 p-2 border border-gray-400 rounded text-sm w-1/2"
+          value={sortBy}
+          onChange={handleSortChange}
+        >
+          <option value="name">Sort by name</option>
+          <option value="current_price">Sort by current price</option>
+        </select>
+
+        <select
+          className="mb-4 p-2 border border-gray-400 rounded text-sm w-1/2"
+          value={currency}
+          onChange={handleCurrencyChange}
+        >
+          <option value="usd">USD - United States Dollar</option>
+          <option value="eur">EUR - Euro</option>
+          <option value="gbp">GBP - British Pound</option>
+          <option value="jpy">JPY - Japanese Yen</option>
+          <option value="btc">BTC - Bitcoin</option>
+          <option value="eth">ETH - Ethereum</option>
+        </select>
+      </div>
 
       <ul className="space-y-2 text-sm">
         {coins.map((coin) => (

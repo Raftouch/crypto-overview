@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi import Query
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
+from typing import Literal
 
 app = FastAPI()
 
@@ -33,6 +34,7 @@ async def get_coins_data(currency: str):
 @app.get("/coins")
 async def get_coins(
     vs_currency: str = Query("usd", alias="currency"),
+    sort_by: Literal["name", "current_price"] = "name",
     search: str = ""
 ):
     try:
@@ -47,7 +49,11 @@ async def get_coins(
                 if search.lower() in coin["name"].lower() or search.lower() in coin["symbol"].lower()
             ]
 
-        sorted_coins = sorted(coins, key=lambda coin: coin["symbol"])
+        if sort_by == "name":
+            sorted_coins = sorted(coins, key=lambda coin: coin["name"])
+        elif sort_by == "current_price":
+            sorted_coins = sorted(coins, key=lambda coin: coin["current_price"], reverse=True)
+
         return sorted_coins
     except TypeError as error:
         return {"error": "Wrong format"}
