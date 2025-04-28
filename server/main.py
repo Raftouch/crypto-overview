@@ -31,9 +31,22 @@ async def get_coins_data(currency: str):
 
 
 @app.get("/coins")
-async def get_coins(vs_currency: str = Query("usd", alias="currency")):
+async def get_coins(
+    vs_currency: str = Query("usd", alias="currency"),
+    search: str = ""
+):
     try:
         coins = await get_coins_data(vs_currency)
+
+        if not isinstance(coins, list):
+            return {"error": "Unexpected format"}
+        
+        if search:
+            coins = [
+                coin for coin in coins
+                if search.lower() in coin["name"].lower() or search.lower() in coin["symbol"].lower()
+            ]
+
         sorted_coins = sorted(coins, key=lambda coin: coin["symbol"])
         return sorted_coins
     except TypeError as error:
