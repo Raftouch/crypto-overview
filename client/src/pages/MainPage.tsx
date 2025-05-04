@@ -50,7 +50,7 @@ export default function MainPage() {
 
   return (
     <div>
-      <h1 className="text-center py-5 font-bold">Crypto Today</h1>
+      <h1 className="text-center pb-5 font-bold">Crypto Today</h1>
       <div className="flex w-full">
         <select
           className="mb-4 p-2 border border-gray-400 rounded text-sm w-1/2"
