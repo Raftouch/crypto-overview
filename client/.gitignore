@@ -23,7 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 
-#### add env variables
-
-.env.development
-.env.production

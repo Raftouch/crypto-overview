@@ -4,11 +4,15 @@ from fastapi import Query
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 from typing import Literal
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173"
+    os.getenv("CORS_ORIGIN", "http://localhost:5173")
 ]
 
 app.add_middleware(
@@ -19,13 +23,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# BINANCE_API_URL = "https://api.binance.com/api/v3/ticker/price"
-API_URL = "https://api.coingecko.com/api/v3/coins/markets"
-
-
 async def get_coins_data(currency: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{API_URL}?vs_currency={currency}")
+        response = await client.get(f"{os.getenv("API_URL")}?vs_currency={currency}")
         if response.status_code != 200:
             return {"error": "Error fetching coins"}
         return response.json()
