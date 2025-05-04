@@ -1,4 +1,19 @@
 #### install dependencies
 
 cd server
-pip install -r .\requirements.txt
+
+```bash
+pip install -r requirements.txt
+```
+
+cd client
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn install
+```
