@@ -50,7 +50,7 @@ async def get_coins(
         coins = await get_coins_data(vs_currency)
 
         if not isinstance(coins, list):
-            return {"error": "Unexpected format"}
+            return {"error": "Wrong format", "coins": []}
         
         if search:
             coins = [
@@ -65,7 +65,7 @@ async def get_coins(
 
         return sorted_coins
     except TypeError as error:
-        return {"error": "Wrong format"}
+        return {"error": "Wrong format", "coins": []}
 
 
 if __name__ == "__main__":

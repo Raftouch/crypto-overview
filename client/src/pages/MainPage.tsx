@@ -28,7 +28,12 @@ export default function MainPage() {
       );
       const data = response.data;
       console.log("data : ", data);
-      setCoins(data);
+
+      if (Array.isArray(data)) {
+        setCoins(data);
+      } else {
+        console.error("Expected an array, recieved : ", data);
+      }
     } catch (error) {
       console.error("error fetching coins", error);
     }
