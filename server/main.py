@@ -11,9 +11,16 @@ load_dotenv()
 
 app = FastAPI()
 
-origins = [
-    os.getenv("CORS_ORIGIN", "http://localhost:5173")
-]
+environment = os.getenv("ENVIRONMENT", "development")
+
+if environment == "production":
+    origins = [os.getenv("CORS_ORIGIN", "https://crypto-overview-today.netlify.app")]
+else:
+    origins = [os.getenv("CORS_ORIGIN", "http://localhost:5173")]
+
+# origins = [
+#     os.getenv("CORS_ORIGIN", "http://localhost:5173")
+# ]
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,9 +30,11 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+API_URL="https://api.coingecko.com/api/v3/coins/markets"
+
 async def get_coins_data(currency: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{os.getenv("API_URL")}?vs_currency={currency}")
+        response = await client.get(f"{API_URL}?vs_currency={currency}")
         if response.status_code != 200:
             return {"error": "Error fetching coins"}
         return response.json()
