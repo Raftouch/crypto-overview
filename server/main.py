@@ -61,9 +61,9 @@ async def get_coins(
         if sort_by == "name":
             sorted_coins = sorted(coins, key=lambda coin: coin["name"])
         elif sort_by == "current_price":
-            sorted_coins = sorted(coins, key=lambda coin: float(coin["current_price"]), reverse=True)
+            sorted_coins = sorted(coins, key=lambda coin: coin["current_price"], reverse=True)
 
-        return {"coins": sorted_coins}
+        return sorted_coins
     except TypeError as error:
         return {"error": "Wrong format", "coins": []}
 
