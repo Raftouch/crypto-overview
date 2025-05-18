@@ -10,16 +10,14 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-add file: .env.development
-add your development origin inside it:
+create file: .env.development / then add your development origin inside it:
 
 ```bash
 ENVIRONMENT=development
 CORS_ORIGIN=http://localhost:5173
 ```
 
-add file: .env.production
-add your production origin inside it:
+create file: .env.production / then add your production origin inside it:
 
 ```bash
 ENVIRONMENT=production
@@ -44,5 +42,4 @@ or
 yarn install
 ```
 
-add file: .env.production
-add your production url inside it: VITE_API_URL=
+create file: .env.production / then add your production url inside it: VITE_API_URL=
